@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Ucapan Ulang Tahun — Full Aesthetic</title>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1: #ff9a9e;
+    --bg2: #fad0c4;
+    --accent: #ff6b81;
+    --neon: #8effff;
+    --glass: rgba(255,255,255,0.06);
+    --glass-2: rgba(255,255,255,0.02);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0;}
+  body{
+    font-family:'Poppins',sans-serif;
+    background: linear-gradient(135deg,var(--bg1),var(--bg2));
+    display:flex; flex-direction:column; align-items:center;
+    color:#fff; overflow-x:hidden; padding:20px 12px 80px;
+  }
+
+  h1{
+    margin:8px 0 4px; font-family:'Pacifico',cursive; font-size:2.4rem;
+    text-shadow:0 6px 18px rgba(0,0,0,0.25);
+  }
+  #subtitle{
+    color:var(--neon); font-weight:700; margin-bottom:12px;
+    text-shadow:0 0 6px rgba(142,255,255,0.9),0 0 20px rgba(142,255,255,0.35);
+  }
+
+  /* CONTROLS */
+  .controls{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin-bottom:12px; justify-content:center;}
+  .btn{
+    background:#fff; color:#222; border:none; padding:10px 16px; border-radius:12px;
+    font-weight:700; cursor:pointer; box-shadow:0 8px 20px rgba(0,0,0,0.12);
+  }
+  .btn.small{ padding:8px 12px; font-size:0.95rem; }
+  #playPause{ background:transparent; border:2px solid #fff; color:#fff; }
+
+  /* LAYOUT */
+  .main-grid{
+    display:grid;
+    grid-template-columns: 1fr 360px;
+    gap:18px;
+    width:min(1100px,96%);
+    align-items:start;
+  }
+
+  /* LEFT COLUMN: photos + ucapan + cake */
+  .left-col{
+    display:flex; flex-direction:column; gap:14px;
+  }
+
+  /* PHOTO ROW */
+  #photoRow{
+    display:flex; gap:18px; align-items:center; justify-content:flex-start;
+    overflow:hidden;
+  }
+  .side-photo{
+    width:120px; height:120px; border-radius:14px; object-fit:cover;
+    opacity:0; transform:translateY(8px) scale(.98);
+    border:4px solid rgba(255,255,255,0.12);
+    transition:box-shadow .4s ease, transform .45s ease, opacity .45s ease;
+    position:relative;
+    flex-shrink:0;
+  }
+
+  .glow-wrap{ position:relative; display:inline-block; }
+  .glow-wrap::after{
+    content:""; position:absolute; inset:0; border-radius:14px; pointer-events:none;
+    background: radial-gradient(600px 100px at 10% 10%, rgba(255,255,255,0.12), transparent 10%),
+                radial-gradient(400px 80px at 90% 90%, rgba(255,107,129,0.08), transparent 15%);
+    mix-blend-mode: screen; opacity:0; transition:opacity .5s ease;
+  }
+  .glow-wrap.active::after{ opacity:1; animation: glowMove 6s linear infinite; }
+
+  @keyframes glowMove{
+    0%{ background-position: 0% 0%, 100% 100%; }
+    50%{ background-position: 100% 30%, 0% 70%; }
+    100%{ background-position: 0% 0%, 100% 100%; }
+  }
+
+  /* UCAPAN BOX */
+  #ucapan{
+    padding:14px 18px; border-radius:12px;
+    background: linear-gradient(90deg, var(--glass), var(--glass-2));
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18); font-weight:700; font-size:1.05rem;
+    opacity:0; transform:translateY(12px); transition:opacity .6s ease, transform .6s ease;
+    text-align:center; min-height:56px;
+  }
+  #ucapan.show{ opacity:1; transform:translateY(0); text-shadow: 0 0 8px rgba(142,255,255,0.9); }
+
+  /* TYPEWRITER */
+  .typewrap{ display:inline-block; white-space:pre-wrap; font-weight:800; letter-spacing:0.2px;}
+  .cursor{ display:inline-block; width:2px; height:1.05em; background:#fff; margin-left:6px; vertical-align:middle; animation: blink 1s steps(2,end) infinite; opacity:0.95;}
+  @keyframes blink{ 50%{ opacity:0 } }
+
+  /* GLITTER */
+  .glitter {
+    position:fixed; inset:0; pointer-events:none; z-index:20;
+    background-image: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.06) 0px, transparent 6px),
+                      radial-gradient(circle at 40% 60%, rgba(255,255,255,0.04) 0px, transparent 5px),
+                      radial-gradient(circle at 80% 30%, rgba(255,255,255,0.03) 0px, transparent 4px);
+    opacity:0; transition:opacity .7s ease;
+  }
+  .glitter.on{ opacity:1; animation: glitterMove 4s linear infinite; }
+
+  @keyframes glitterMove {
+    0%{ background-position:0% 0%, 0% 0%, 0% 0%; }
+    50%{ background-position:20% 10%, 10% 30%, 30% 5%; }
+    100%{ background-position:0% 0%, 0% 0%, 0% 0%; }
+  }
+
+  /* CAKE */
+  .cake-wrap{ display:flex; gap:18px; align-items:center; justify-content:center; }
+  .cake{
+    width:220px; height:160px; position:relative; border-radius:18px; padding-top:10px;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .cake .layer{
+    width:180px; height:50px; border-radius:14px; background:linear-gradient(180deg,#fff,#ffecec);
+    box-shadow: inset 0 6px 12px rgba(0,0,0,0.06);
+    display:flex; align-items:center; justify-content:center; position:relative; z-index:2;
+  }
+  .cake .frosting{
+    position:absolute; top:-12px; width:200px; height:34px; border-radius:18px;
+    background: linear-gradient(180deg,#fff4f6,#ffd7df); z-index:3;
+    box-shadow: 0 6px 18px rgba(255,107,129,0.12);
+    clip-path: path('M0,20 Q20,0 40,20 T80,20 T120,20 T160,20 T200,20 V34 H0 Z');
+  }
+  /* simple rounded drips */
+  .drip{ position:absolute; width:10px; height:18px; background:#ffd4db; border-radius:0 0 10px 10px; bottom: -8px; }
+  .drip.d1{ left:28px; transform:scale(1.1) }
+  .drip.d2{ left:76px; transform:scale(.95) }
+  .drip.d3{ left:130px; transform:scale(.9) }
+
+  /* candles */
+  .candles{ position:absolute; top:-24px; display:flex; gap:8px; z-index:6; }
+  .candle{ width:8px; height:28px; background:#fff; border-radius:2px; display:block; position:relative; box-shadow: 0 2px 6px rgba(0,0,0,0.15);}
+  .candle::after{ content:''; position:absolute; left:50%; transform:translateX(-50%); top:-8px; width:8px; height:12px; border-radius:50%; background: radial-gradient(circle at 30% 30%, #ffdf7a,#ff9a9e); opacity:0.95;}
+  .flame{ position:absolute; left:50%; transform:translateX(-50%); top:-20px; width:10px; height:16px; border-radius:50%; background: radial-gradient(circle at 40% 30%, #fff1b8,#ffb36b 60%, #ff6b81 100%); filter: blur(0.5px); animation: flame 1s linear infinite; opacity:0.95; }
+  @keyframes flame{ 0%{ transform:translateX(-50%) translateY(0) scale(1) } 50%{ transform:translateX(-50%) translateY(-4px) scale(1.03) } 100%{ transform:translateX(-50%) translateY(0) scale(1) } }
+
+  /* RIGHT COLUMN: map + extras */
+  .right-col{ background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+              padding:12px; border-radius:12px; min-height:200px; display:flex; flex-direction:column; gap:12px; justify-content:flex-start;}
+  .map-frame{ width:100%; height:220px; border-radius:12px; overflow:hidden; border:2px solid rgba(255,255,255,0.06); }
+
+  /* slideshow */
+  .slideshow{ width:100%; height:160px; border-radius:10px; overflow:hidden; position:relative; background:#1112; display:flex; align-items:center; justify-content:center; }
+  .slideshow img{ position:absolute; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.03); transition:opacity .7s ease, transform .7s ease; }
+  .slideshow img.active{ opacity:1; transform:scale(1); }
+
+  /* hidden surprise */
+  #surpriseMsg{ display:none; padding:10px 12px; border-radius:10px; background:linear-gradient(90deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)); font-weight:800; text-align:center; }
+
+  /* CONFETTI CANVAS */
+  #confettiCanvas{ position:fixed; inset:0; pointer-events:none; z-index:9999; display:none; }
+
+  /* RESPONSIVE */
+  @media (max-width:980px){
+    .main-grid{ grid-template-columns: 1fr; }
+    .right-col{ order:2; }
+  }
+  @media (max-width:480px){
+    h1{ font-size:1.8rem; }
+    .side-photo{ width:88px; height:88px; border-radius:10px; }
+    .cake{ width:160px; height:120px; }
+    .map-frame{ height:160px; }
+    .slideshow{ height:120px; }
+  }
+</style>
+</head>
+<body>
+
+  <h1>Selamat Ulang Tahun!! 🎉🎂</h1>
+  <div id="subtitle">Tekan tombol, nikmati ucapannya ✨</div>
+
+  <div class="controls">
+    <button id="startBtn" class="btn">Jangan Ragu</button>
+    <button id="playPause" class="btn small">Pause</button>
+    <button id="replayBtn" class="btn small">Replay</button>
+    <button id="toggleGlitter" class="btn small">Glitter On</button>
+    <button id="kejutan2" class="btn small">Kejutan 2</button>
+  </div>
+
+  <div class="main-grid">
+    <div class="left-col">
+      <div id="photoRow" aria-hidden="false">
+        <div class="glow-wrap" id="leftWrap"><img id="pLeft" class="side-photo" src="anjay 1.jpg" alt="Foto kiri"></div>
+        <div class="glow-wrap" id="midWrap"><img id="pMid" class="side-photo" src="photo3.jpg" alt="Foto tengah"></div>
+        <div class="glow-wrap" id="rightWrap"><img id="pRight" class="side-photo" src="anjay 2.jpg" alt="Foto kanan"></div>
+      </div>
+
+      <div id="ucapan" aria-live="polite"><span class="typewrap" id="typeText"></span><span class="cursor" id="cursorEl"></span></div>
+
+      <div class="cake-wrap" aria-hidden="true" style="justify-content:center;">
+        <div class="cake" id="cakeEl" role="img" aria-label="Kue Ulang Tahun">
+          <div class="frosting" aria-hidden="true"></div>
+          <div class="layer">
+            <div class="drip d1"></div>
+            <div class="drip d2"></div>
+            <div class="drip d3"></div>
+            <div style="position:absolute; top:-6px;">
+              <div class="candles" id="candles">
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+              </div>
+            </div>
+            <div style="z-index:2; padding:6px 12px; color:#ff5b73; font-weight:900;">Make a wish!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="right-col" aria-label="Sidebar">
+      <div class="slideshow" id="slideshow">
+        <img src="anjay 1.jpg" alt="slide 1" class="active">
+        <img src="photo3.jpg" alt="slide 2">
+        <img src="anjay 2.jpg" alt="slide 3">
+      </div>
+
+      <div class="map-frame" id="mapFrame">
+        <!--
+          GANTI: Untuk menampilkan lokasi lain, buka Google Maps > Share > Embed a map > copy iframe src.
+          Atau ganti koordinat & zoom di URL. Default: Jakarta center.
+        -->
+        <iframe id="gmap" style="border:0; width:100%; height:100%;" loading="lazy"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.1765100890975!2d106.81592151476929!3d-6.200000099999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f7f2b0b8b3b7%3A0x6c3f7f0a1a4d7bd0!2sJakarta!5e0!3m2!1sid!2sid!4v1690000000000!5m2!1sid!2sid"
+          referrerpolicy="no-referrer-when-downgrade" aria-hidden="false"></iframe>
+      </div>
+
+      <div id="surpriseMsg">Rahasia: Ada diskon kue 20% kalau tunjukkan halaman ini 🎁</div>
+    </aside>
+  </div>
+
+  <audio id="musik" src="act my age .mp3" preload="auto" loop></audio>
+  <canvas id="confettiCanvas"></canvas>
+  <div class="glitter" id="glitterLayer"></div>
+
+<script>
+/* ======= GLOBAL ======= */
+const startBtn = document.getElementById('startBtn');
+const playPause = document.getElementById('playPause');
+const replayBtn = document.getElementById('replayBtn');
+const toggleGlitter = document.getElementById('toggleGlitter');
+const kejutan2 = document.getElementById('kejutan2');
+const musik = document.getElementById('musik');
+const pLeft = document.getElementById('pLeft');
+const pRight = document.getElementById('pRight');
+const pMid = document.getElementById('pMid');
+const leftWrap = document.getElementById('leftWrap');
+const midWrap = document.getElementById('midWrap');
+const rightWrap = document.getElementById('rightWrap');
+const ucapanBox = document.getElementById('ucapan');
+const typeText = document.getElementById('typeText');
+const cursorEl = document.getElementById('cursorEl');
+const glitterLayer = document.getElementById('glitterLayer');
+const slideshow = document.getElementById('slideshow');
+const slides = slideshow.querySelectorAll('img');
+const surpriseMsg = document.getElementById('surpriseMsg');
+const cakeEl = document.getElementById('cakeEl');
+const confettiCanvas = document.getElementById('confettiCanvas');
+
+let heartTimer = null;
+let balloonTimer = null;
+let glitterOn = false;
+let finalPesan = "";
+let typingInProgress = false;
+
+/* Pesan default (bisa diganti) */
+const pesan1 = "Selamat ulang tahun! Semoga panjang umur, sehat, dan bahagia selalu.";
+const pesan2 = "Barakallah fii umrik, semoga Allah memberkahi sisa umurmu.";
+finalPesan = Math.random() > 0.5 ? pesan1 : pesan2;
+
+/* ======= SLIDESHOW ======= */
+let currentSlide = 0;
+function showSlide(i){
+  slides.forEach((s, idx)=> s.classList.toggle('active', idx===i));
+}
+function nextSlide(){
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
+}
+let slideInterval = setInterval(nextSlide, 3000);
+/* pause on hover */
+slideshow.addEventListener('mouseover', ()=> clearInterval(slideInterval));
+slideshow.addEventListener('mouseout', ()=> slideInterval = setInterval(nextSlide, 3000));
+
+/* ======= PHOTOS GLOW ======= */
+function activateGlow(){
+  leftWrap.classList.add('active');
+  midWrap.classList.add('active');
+  rightWrap.classList.add('active');
+  [pLeft,pRight,pMid].forEach((el, idx)=> {
+    el.style.opacity = 1;
+    el.style.transform = 'translateY(0) scale(1)';
+  });
+}
+
+/* ======= TYPEWRITER ======= */
+async function typeWriter(text, el, speed=40){
+  // quick: if another typing in progress, skip
+  if(typingInProgress) return;
+  typingInProgress = true;
+  el.textContent = "";
+  cursorEl.style.display = 'inline-block';
+  for(let i=0;i<text.length;i++){
+    el.textContent += text[i];
+    await new Promise(r => setTimeout(r, speed + Math.random()*30));
+  }
+  cursorEl.style.display = 'inline-block';
+  typingInProgress = false;
+}
+
+/* ======= HEART & BALLOONS (simple) ======= */
+function spawnHeart(){
+  const el = document.createElement('div');
+  el.className = 'heart';
+  el.innerText = '❤';
+  el.style.left = (10 + Math.random()*80) + 'vw';
+  el.style.bottom = '20px';
+  el.style.fontSize = (18 + Math.random()*26) + 'px';
+  el.style.opacity = 1;
+  el.style.transition = 'transform 4s linear, opacity 4s linear';
+  document.body.appendChild(el);
+
+  requestAnimationFrame(()=>{ el.style.transform = 'translateY(-120vh) scale(1.6)'; el.style.opacity = 0; });
+  setTimeout(()=> el.remove(), 4200);
+}
+
+const BALLOON_SVG =
+'data:image/svg+xml;utf8,' + encodeURIComponent(
+'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 96"><ellipse cx="32" cy="32" rx="22" ry="28" fill="#ff6b81"/><path d="M28 60c3 4 8 4 11 0" stroke="#c33" stroke-width="2" fill="none"/><rect x="30" y="64" width="4" height="12" rx="2" fill="#c33"/></svg>'
+);
+function spawnBalloon(){
+  const el = document.createElement('img');
+  el.className = 'balloon';
+  el.src = BALLOON_SVG;
+  el.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+  const dur = 6 + Math.random()*6;
+  el.style.animation = `balloonUp ${dur}s linear forwards`;
+  el.style.position = 'fixed';
+  el.style.bottom = '-140px';
+  el.style.width = '56px';
+  el.style.zIndex = 950;
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), (dur+0.3)*1000);
+}
+
+/* ======= GLITTER ======= */
+function toggleGlitterLayer(){
+  glitterOn = !glitterOn;
+  glitterLayer.classList.toggle('on', glitterOn);
+  toggleGlitter.textContent = glitterOn ? 'Glitter Off' : 'Glitter On';
+}
+
+/* ======= CONFETTI (simple canvas) ======= */
+let confettiCtx, confettiParticles = [], confettiRunning=false;
+function setupConfetti(){
+  confettiCanvas.width = window.innerWidth;
+  confettiCanvas.height = window.innerHeight;
+  confettiCtx = confettiCanvas.getContext('2d');
+}
+function startConfetti(duration=3000){
+  if(!confettiCtx) setupConfetti();
+  confettiCanvas.style.display = 'block';
+  confettiRunning = true;
+  confettiParticles = Array.from({length:120}, ()=>({
+    x: Math.random()*confettiCanvas.width,
+    y: Math.random()*-confettiCanvas.height,
+    vx: (Math.random()-0.5)*2,
+    vy: 2 + Math.random()*3,
+    size: 6 + Math.random()*8,
+    color: ['#ff6b81','#ffd166','#8effff','#bde0fe'][Math.floor(Math.random()*4)],
+    rot: Math.random()*360,
+    rotSpeed: (Math.random()-0.5)*8
+  }));
+  let start = Date.now();
+  (function frame(){
+    confettiCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+    confettiParticles.forEach(p=>{
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.03;
+      p.rot += p.rotSpeed;
+      confettiCtx.save();
+      confettiCtx.translate(p.x,p.y);
+      confettiCtx.rotate(p.rot * Math.PI/180);
+      confettiCtx.fillStyle = p.color;
+      confettiCtx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      confettiCtx.restore();
+    });
+    if(Date.now() - start < duration) requestAnimationFrame(frame);
+    else { confettiRunning=false; confettiCanvas.style.display='none'; confettiCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height); }
+  })();
+}
+
+/* ======= START SHOW ======= */
+startBtn.addEventListener('click', async ()=>{
+  startBtn.disabled = true;
+  try{ await musik.play(); }catch{}
+  playPause.textContent = 'Pause';
+  activateGlow();
+
+  setTimeout(()=>{ ucapanBox.classList.add('show'); }, 300);
+  setTimeout(()=> typeWriter(finalPesan, typeText, 36), 700);
+
+  heartTimer = setInterval(()=> spawnHeart(), 700);
+  balloonTimer = setInterval(()=> spawnBalloon(), 1200);
+
+  glitterOn = true;
+  glitterLayer.classList.add('on');
+  toggleGlitter.textContent = "Glitter Off";
+
+  // auto stop hearts/balloons after 18s
+  setTimeout(()=>{ clearInterval(heartTimer); clearInterval(balloonTimer); }, 18000);
+});
+
+/* ======= PLAY / PAUSE AUDIO ======= */
+playPause.addEventListener('click', async ()=>{
+  if(musik.paused){
+    await musik.play().catch(()=>{});
+    playPause.textContent = 'Pause';
+  } else {
+    musik.pause();
+    playPause.textContent = 'Play';
+  }
+});
+
+/* ======= REPLAY ======= */
+replayBtn.addEventListener('click', ()=>{ musik.currentTime = 0; musik.play().catch(()=>{}); playPause.textContent = 'Pause'; });
+
+/* ======= KEJUTAN 2 ======= */
+kejutan2.addEventListener('click', ()=> {
+  // show surprise message
+  surpriseMsg.style.display = 'block';
+  surpriseMsg.classList.add('pulse');
+  // quick cake "grow" animation
+  cakeEl.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.06)' }, { transform: 'scale(1)' }], { duration: 900, easing: 'ease-in-out' });
+  // confetti + extra audio beep
+  startConfetti(3500);
+  // optional extra sound (user may add)
+  const ding = new Audio();
+  // small beep using data URI (short beep)
+  ding.src = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YQAAAAA=";
+  ding.play().catch(()=>{});
+  // hide after a while
+  setTimeout(()=> surpriseMsg.style.display='none', 7000);
+});
+
+/* ======= small helpers ======= */
+window.addEventListener('resize', ()=> { if(confettiCanvas) { confettiCanvas.width = window.innerWidth; confettiCanvas.height = window.innerHeight; } });
+
+/* init confetti size */
+setupConfetti();
+
+/* accessibility: hide cursor after typing finished */
+setInterval(()=> {
+  if(!typingInProgress) cursorEl.style.opacity = 0; else cursorEl.style.opacity = 1;
+}, 300);
+
+/* optional: auto-start (commented for better UX)
+window.addEventListener('load', ()=> startBtn.click());
+*/
+
+/* ======= KEYFRAME STYLES for balloons (injected) ======= */
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+@keyframes balloonUp {
+  0%{ transform:translateY(0); opacity:1; }
+  100%{ transform:translateY(-130vh); opacity:0; }
+}
+.heart{ position:fixed; pointer-events:none; z-index:9000; font-size:22px; }
+.balloon{ pointer-events:none; z-index:900; }
+.pulse{ animation: pulseAnim 1s ease-in-out infinite; }
+@keyframes pulseAnim { 0%{ transform:scale(1) } 50%{ transform:scale(1.03) } 100%{ transform:scale(1) } }
+`;
+document.head.appendChild(styleSheet);
+</script>
+
+</body>
+</html>
